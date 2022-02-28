@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'tasks/main.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+
+        {% if page_obj %}
+            <div id="main-content" class="col-md-9">
+                <h1> سامانه‌ی انجام کار</h1>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>عنوان کار</th>
+                        <th>ارزش کار</th>
+                        <th>تخمین زمانی</th>
+                        <th>صاحب کار</th>
+                        <th>توضیحات</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task in page_obj %}
+                        <tr>
+                            <td>{{ task.title }}</td>
+                            <td>{{ task.price }} تومان</td>
+                            <td>{{ task.estimated_time }} روز</td>
+                            <td><u>{{ task.user.first_name }}</u></td>
+                            <td>
+                                <a href="{% url 'tasks:details' task.id %}" class="btn btn-default">توضیحات بیشتر</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <div id="tasks-paginator">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li><a href="?page=1">اولین</a></li>
+                            <li>
+                                <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                            </li>
+                        {% endif %}
+
+                        <li class="active"><a href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+
+                        {% if page_obj.has_next %}
+                            <li><a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                            <li><a href="?page={{ page_obj.paginator.num_pages }}">آخرین</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+            </div>
+        {% endif %}
+
+        <div class="col-md-3">
+            <h3> ورود </h3>
+            <form>
+                <div class="form-group">
+                    <input type="email" class="form-control" name="email" placeholder="ایمیل">
+                </div>
+                <button class="btn btn-default btn-block">ورود</button>
+            </form>
+            <hr/>
+            <h3>ثبت نام</h3>
+            <form>
+                <div class="form-group">
+                    <input name="username" maxlength="100" class="form-control" placeholder="نام‌کاربری">
+                </div>
+                <div class="form-group">
+                    <input name="email" class="form-control" placeholder="ایمیل" type="email">
+                </div>
+                <div class="form-group">
+                    <input name="password" class="form-control" placeholder="رمزعبور" type="password">
+                </div>
+                <div class="form-group">
+                    <input name="password_rpt" class="form-control" placeholder="تکرار رمز عبور" type="password">
+                </div>
+                <div class="form-group">
+                    <label><input name="master" type="checkbox">کارفرما</label>
+                </div>
+                <button class="btn btn-default btn-block">ثبت نام</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <hr/>
+        <span> درباه‌ی ما</span>
+        <span>قوانین</span>
+    </footer>
+</div>
+</body>
+</html>

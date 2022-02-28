@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'tasks/main.css' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div id="main-content" class="col-md-9">
+            <h1> سامانه‌ی انجام کار</h1>
+            <div>
+                <div class="col-sm-12">
+                    <h3 style="display: inline-block">{{ task.title }}</h3>
+                    <a class="btn btn-default">انجام می‌دم</a>
+                    <hr/>
+                </div>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4">
+                    {% if task.get_date_created != "0" %}
+                        ساخته شده در {{ task.get_date_created }} روز پیش
+                    {% else %}
+                        ساخته شده در امروز
+                    {% endif %}
+                </div>
+                <div class="col-sm-3">{{ task.price }} تومان</div>
+                <div class="col-sm-3">{{ task.estimated_time }} روز</div>
+                <div class="col-sm-12">
+                    <br/>
+                    توضیحات:
+                    <br/>
+                    {{ task.details }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <h5> شما با نام کاربری JigilWorker123 به عنوان کارمند وارد سیستم شده‌اید.</h5>
+            <a class="btn btn-default btn-block" href="index.html">صفحه‌ی اصلی</a>
+            <a class="btn btn-default btn-block">خروج</a>
+        </div>
+    </div>
+    <footer>
+        <hr/>
+        <span>درباه‌ی ما</span>
+        <span>قوانین</span>
+    </footer>
+</div>
+</body>
+</html>
