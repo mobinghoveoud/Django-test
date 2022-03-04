@@ -68,6 +68,7 @@
         <div class="col-md-3">
             {% if user.is_authenticated %}
                 <br><br>
+                <p class="btn btn-default btn-block">وارد شده با: {{ user.username }}</p>
                 <a href="{% url 'tasks:create' %}" class="btn btn-default btn-block">اضافه کردن کار</a>
 
                 <form action="{% url 'index:logout' %}" method="post">

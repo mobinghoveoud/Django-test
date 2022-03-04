@@ -49,6 +49,14 @@
                         <label class="control-label col-sm-2" for="estimated_time">زمان تخمینی</label>
                     </div>
 
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li> {{ message }} </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
                     <div class="col-sm-4"></div>
                     <div class="col-sm-8">
                         <button class="btn btn-default btn-block">افزودن کار</button>
@@ -57,11 +65,16 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <h5>شما با نام کاربری beautifulMaster1755 به عنوان کارفرما وارد سیستم شده‌اید.</h5>
-            <a class="btn btn-default btn-block" href="index.html">صفحه‌ی اصلی</a>
-            <a class="btn btn-default btn-block">خروج</a>
-        </div>
+        {% if user_role %}
+            <div class="col-md-3">
+                <h5> شما با نام کاربری {{ user.username }} به عنوان {{ user_role }} وارد سیستم شده‌اید.</h5>
+                <a class="btn btn-default btn-block" href="{% url 'tasks:index' %}">صفحه‌ی اصلی</a>
+                <form action="{% url 'index:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-default btn-block">خروج</button>
+                </form>
+            </div>
+        {% endif %}
     </div>
     <footer>
         <hr/>

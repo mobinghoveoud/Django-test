@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from uuid import uuid4
 
 from index.models import Verify
@@ -15,8 +15,14 @@ def register(request):
     if request.method == "GET":
         return render(request, 'index/register.html')
 
-    user = User(username=request.POST['username'], email=request.POST['email'], password=request.POST['password'])
+    user = User(username=request.POST['username'], email=request.POST['email'])
+    user.set_password(request.POST['password'])
     user.save()
+
+    if request.POST['role']:
+        user.role_set.create(role=1)
+    else:
+        user.role_set.create(role=2)
 
     return send_email(request, user.email)
 
@@ -53,4 +59,4 @@ def login(request, verify_code):
 
 def logout(request):
     django_logout(request)
-    return redirect('tasks:index')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

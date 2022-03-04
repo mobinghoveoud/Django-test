@@ -9,6 +9,7 @@ class Task(models.Model):
     price = models.IntegerField()
     estimated_time = models.IntegerField()
     details = models.TextField(default="فاقد توضیحات")
+    reserved = models.BooleanField(default=False)
     date_created = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -17,3 +18,8 @@ class Task(models.Model):
 
     def get_date_created(self):
         return str(datetime.now().day - self.date_created.day)
+
+
+class Reserve(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

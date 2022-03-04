@@ -15,7 +15,21 @@
             <div>
                 <div class="col-sm-12">
                     <h3 style="display: inline-block">{{ task.title }}</h3>
-                    <a class="btn btn-default">انجام می‌دم</a>
+
+                    <form action="{% url 'tasks:reserve' task.id %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-default" {% if not user.is_authenticated or task.reserved %}
+                                disabled {% endif %}>انجام میدم!
+                        </button>
+                    </form>
+
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li> {{ message }} </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                     <hr/>
                 </div>
                 <div class="col-sm-2"></div>
@@ -37,11 +51,16 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <h5> شما با نام کاربری JigilWorker123 به عنوان کارمند وارد سیستم شده‌اید.</h5>
-            <a class="btn btn-default btn-block" href="index.html">صفحه‌ی اصلی</a>
-            <a class="btn btn-default btn-block">خروج</a>
-        </div>
+        {% if user_role %}
+            <div class="col-md-3">
+                <h5> شما با نام کاربری {{ user.username }} به عنوان {{ user_role }} وارد سیستم شده‌اید.</h5>
+                <a class="btn btn-default btn-block" href="{% url 'tasks:index' %}">صفحه‌ی اصلی</a>
+                <form action="{% url 'index:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-default btn-block">خروج</button>
+                </form>
+            </div>
+        {% endif %}
     </div>
     <footer>
         <hr/>
