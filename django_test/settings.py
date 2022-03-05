@@ -134,3 +134,7 @@ EMAIL_HOST_PASSWORD = 'password'
 
 # Messages
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+# Redis
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
